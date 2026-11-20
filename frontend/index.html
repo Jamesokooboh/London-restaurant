@@ -1,50 +1,200 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Thames Tavern | London</title>
-    <style>
-        body { font-family: 'Georgia', serif; background-color: #f4f1ea; color: #2c3e50; margin: 0; padding: 0; }
-        header { background-color: #1a252f; color: #e74c3c; text-align: center; padding: 3rem 1rem; }
-        h1 { margin: 0; font-size: 3rem; letter-spacing: 2px; }
-        p.subtitle { color: #ecf0f1; font-style: italic; font-size: 1.2rem; }
-        .container { max-width: 800px; margin: 2rem auto; padding: 0 1rem; }
-        .menu-item { background: white; margin-bottom: 1.5rem; padding: 1.5rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border-left: 5px solid #e74c3c; }
-        .menu-item h3 { margin-top: 0; display: flex; justify-content: space-between; }
-        .price { font-weight: bold; color: #27ae60; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Crated Table | London</title>
+<meta name="description" content="Modern British dining in the heart of London.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#16130f; --panel:#1f1b16; --cream:#faf6ef; --gold:#c9a24b; --gold-d:#a8832f; --muted:#6f675c; --line:#e7dfd0; }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+  body { font-family: Inter, system-ui, sans-serif; background: var(--cream); color: var(--ink); margin: 0; line-height: 1.6; }
+  h1, h2, h3, .brand { font-family: 'Playfair Display', Georgia, serif; }
+  nav { position: fixed; inset: 0 0 auto 0; z-index: 10; display: flex; align-items: center; gap: 1.6rem; padding: .9rem clamp(1rem,4vw,3rem); background: rgba(22,19,15,.88); backdrop-filter: blur(10px); }
+  .brand { color: #fff; font-size: 1.35rem; font-weight: 700; margin-right: auto; text-decoration: none; }
+  .brand b { color: var(--gold); }
+  nav a.l { color: #e9e2d3; text-decoration: none; font-size: .95rem; }
+  nav a.l:hover { color: var(--gold); }
+  #auth-area { display: flex; align-items: center; gap: .6rem; color: #e9e2d3; font-size: .95rem; }
+  button { font: inherit; font-weight: 500; background: var(--gold); color: var(--ink); border: 0; padding: .55rem 1.2rem; border-radius: 999px; cursor: pointer; transition: .2s; }
+  button:hover { background: var(--gold-d); color: #fff; }
+  button.ghost { background: transparent; color: #fff; border: 1px solid rgba(255,255,255,.4); }
+  button.ghost:hover { border-color: var(--gold); color: var(--gold); background: transparent; }
+  .hero { min-height: 92vh; display: grid; place-items: center; text-align: center; color: #fff; padding: 7rem 1.2rem 4rem;
+    background: linear-gradient(rgba(16,13,9,.62), rgba(16,13,9,.78)), url(/img/07.jpg) center/cover; }
+  .hero .eyebrow { letter-spacing: .3em; text-transform: uppercase; color: var(--gold); font-size: .8rem; }
+  .hero h1 { font-size: clamp(2.8rem, 8vw, 5.5rem); margin: .4rem 0 1rem; line-height: 1.05; }
+  .hero p { max-width: 560px; margin: 0 auto 1.5rem; color: #e9e2d3; font-size: 1.1rem; }
+  .cta { display: inline-block; text-decoration: none; background: var(--gold); color: var(--ink); padding: .8rem 2rem; border-radius: 999px; font-weight: 600; }
+  .cta:hover { background: var(--gold-d); color: #fff; }
+  #welcome { color: var(--gold); font-weight: 500; min-height: 1.5em; }
+  section { max-width: 1120px; margin: 0 auto; padding: 5rem 1.2rem 2rem; }
+  .head { text-align: center; margin-bottom: 2rem; }
+  .head h2 { font-size: clamp(2rem,5vw,2.8rem); margin: 0; }
+  .head p { color: var(--muted); margin: .4rem 0 0; }
+  .head::after { content: ''; display: block; width: 60px; height: 2px; background: var(--gold); margin: 1rem auto 0; }
+  .tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: .5rem; margin-bottom: 2rem; }
+  .tabs button { background: transparent; color: var(--ink); border: 1px solid var(--line); }
+  .tabs button:hover { border-color: var(--gold); color: var(--gold-d); background: transparent; }
+  .tabs button.on { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem; }
+  .card { background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 14px rgba(40,30,10,.07); transition: .25s; display: flex; flex-direction: column; }
+  .card:hover { transform: translateY(-4px); box-shadow: 0 10px 28px rgba(40,30,10,.14); }
+  .card img { width: 100%; aspect-ratio: 4/3; object-fit: cover; display: block; background: var(--line); }
+  .card .body { padding: 1.1rem 1.3rem 1.3rem; }
+  .card h3 { margin: 0 0 .3rem; font-size: 1.2rem; display: flex; justify-content: space-between; gap: .8rem; }
+  .price { color: var(--gold-d); font-family: Inter, sans-serif; font-weight: 600; white-space: nowrap; }
+  .card .cat { font-size: .72rem; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); }
+  .card p { margin: .4rem 0 0; color: var(--muted); font-size: .93rem; }
+  .about { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 2.5rem; align-items: center; }
+  .about img { width: 100%; border-radius: 14px; aspect-ratio: 4/3; object-fit: cover; }
+  .about h2 { font-size: 2.4rem; margin: 0 0 1rem; }
+  .about p { color: var(--muted); }
+  .info { display: grid; grid-template-columns: repeat(auto-fit,minmax(240px,1fr)); gap: 1.2rem; }
+  .info div { background: var(--panel); color: #e9e2d3; padding: 1.6rem; border-radius: 14px; }
+  .info strong { color: var(--gold); font-family: 'Playfair Display', serif; font-size: 1.15rem; display: block; margin-bottom: .4rem; }
+  footer { margin-top: 5rem; background: var(--ink); color: #a89f8e; text-align: center; padding: 2.5rem 1rem; font-size: .85rem; }
+  footer a { color: var(--gold); }
+  dialog { border: 0; border-radius: 16px; padding: 2rem; width: min(400px, 92vw); background: var(--cream); }
+  dialog::backdrop { background: rgba(10,8,5,.7); backdrop-filter: blur(3px); }
+  dialog h2 { margin: 0 0 .3rem; font-size: 1.8rem; }
+  dialog form { display: flex; flex-direction: column; gap: .8rem; }
+  input { font: inherit; padding: .75rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+  input:focus { outline: 2px solid var(--gold); border-color: transparent; }
+  .err { color: #b3261e; min-height: 1.3em; margin: 0; font-size: .9rem; }
+  button.link { background: none; color: var(--gold-d); padding: .2rem; border-radius: 0; text-decoration: underline; }
+  button.link:hover { background: none; color: var(--ink); }
+  @media (max-width: 640px) { nav a.l { display: none; } }
+</style>
 </head>
 <body>
-    <header>
-        <h1>The Thames Tavern</h1>
-        <p class="subtitle">Authentic British Dining in the Heart of London</p>
-    </header>
-    <div class="container">
-        <h2>Our Classic Menu</h2>
-        <div id="menu-container">Loading menu from the kitchen...</div>
-    </div>
+<nav>
+  <a class="brand" href="#top">The Crated <b>Table</b></a>
+  <a class="l" href="#menu">Menu</a><a class="l" href="#about">Our Story</a><a class="l" href="#visit">Visit</a>
+  <span id="auth-area"></span>
+</nav>
 
-    <script>
-        // Fetches data via the Nginx reverse proxy routing to the backend container
-        fetch('/api/menu')
-            .then(response => response.json())
-            .then(data => {
-                const container = document.getElementById('menu-container');
-                container.innerHTML = '';
-                data.forEach(item => {
-                    container.innerHTML += `
-                        <div class="menu-item">
-                            <h3>${item.name} <span class="price">£${item.price}</span></h3>
-                            <p>${item.description}</p>
-                        </div>
-                    `;
-                });
-            })
-            .catch(error => {
-                document.getElementById('menu-container').innerHTML = '<p>Error loading menu. Please check back later.</p>';
-                console.error('Error:', error);
-            });
-    </script>
+<header class="hero" id="top">
+  <div>
+    <div class="eyebrow">Modern British Dining · London</div>
+    <h1>The Crated Table</h1>
+    <p>Honest British classics, seasonal produce and a proper pint, served in the heart of London.</p>
+    <p id="welcome"></p>
+    <a class="cta" href="#menu">Explore the menu</a>
+  </div>
+</header>
+
+<section id="menu">
+  <div class="head"><h2>Our Menu</h2><p>Cooked from scratch, every day</p></div>
+  <div class="tabs" id="tabs"></div>
+  <div class="grid" id="menu-container">Loading menu from the kitchen...</div>
+</section>
+
+<section id="about">
+  <div class="about">
+    <img src="/img/10.jpg" alt="Sunday roast beef with Yorkshire pudding" loading="lazy">
+    <div>
+      <h2>Our Story</h2>
+      <p>Since 1892 we've served honest British cooking: slow-cooked classics, seasonal produce and generous Sunday roasts, all made in-house from ingredients we trust.</p>
+      <p>Book a table, bring the family, and stay for pudding.</p>
+    </div>
+  </div>
+</section>
+
+<section id="visit">
+  <div class="head"><h2>Visit Us</h2></div>
+  <div class="info">
+    <div><strong>Address</strong>12 Riverside Walk<br>London SE1 9PP</div>
+    <div><strong>Opening hours</strong>Mon–Fri 12:00–23:00<br>Sat–Sun 11:00–23:00</div>
+    <div><strong>Reservations</strong>020 7946 0000<br>hello@cratedtable.example</div>
+  </div>
+</section>
+
+<footer>
+  © The Crated Table, London<br>
+  Food photos from <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a> contributors under Creative Commons licences; see <a href="/img/CREDITS.txt">credits</a>.
+</footer>
+
+<dialog id="dlg">
+  <form id="form">
+    <h2 id="dlg-title"></h2>
+    <input id="f-name" name="name" placeholder="Full name" autocomplete="name">
+    <input id="f-email" name="email" type="email" placeholder="Email" autocomplete="email" required>
+    <input id="f-pass" name="password" type="password" placeholder="Password (8+ characters)" required minlength="8">
+    <p class="err" id="err"></p>
+    <button id="submit"></button>
+    <button type="button" class="link" id="switch"></button>
+    <button type="button" class="link" id="close">Cancel</button>
+  </form>
+</dialog>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+let items = [], cat = 'All', mode = 'signin', user = null;
+try { user = JSON.parse(localStorage.getItem('user')); } catch {}
+
+// textContent only, so DB text can't inject HTML
+function renderMenu() {
+  const cats = ['All', ...new Set(items.map(i => i.category))];
+  $('tabs').replaceChildren(...cats.map(c => {
+    const b = el('button', c === cat ? 'on' : '', c);
+    b.onclick = () => { cat = c; renderMenu(); };
+    return b;
+  }));
+  $('menu-container').replaceChildren(...items.filter(i => cat === 'All' || i.category === cat).map(i => {
+    const d = el('article', 'card'), body = el('div', 'body'), h = el('h3', '', i.name);
+    const img = el('img'); img.src = i.image; img.alt = i.name; img.loading = 'lazy';
+    h.append(el('span', 'price', '£' + Number(i.price).toFixed(2)));
+    body.append(el('span', 'cat', i.category), h, el('p', '', i.description));
+    d.append(img, body);
+    return d;
+  }));
+}
+fetch('/api/menu').then(r => r.json()).then(d => { items = d; renderMenu(); })
+  .catch(() => { $('menu-container').textContent = 'Error loading menu. Please check back later.'; });
+
+function renderAuth() {
+  const a = $('auth-area');
+  if (user) {
+    const b = el('button', 'ghost', 'Sign out');
+    b.onclick = () => { localStorage.removeItem('token'); localStorage.removeItem('user'); user = null; renderAuth(); };
+    a.replaceChildren(el('span', '', 'Hi, ' + user.name), b);
+    $('welcome').textContent = 'Welcome back, ' + user.name + '!';
+  } else {
+    const i = el('button', 'ghost', 'Sign in'), u = el('button', '', 'Sign up');
+    i.onclick = () => openDlg('signin'); u.onclick = () => openDlg('signup');
+    a.replaceChildren(i, u);
+    $('welcome').textContent = '';
+  }
+}
+function openDlg(m) {
+  mode = m; const up = m === 'signup';
+  $('dlg-title').textContent = up ? 'Create account' : 'Sign in';
+  $('f-name').style.display = up ? '' : 'none'; $('f-name').required = up;
+  $('f-pass').autocomplete = up ? 'new-password' : 'current-password';
+  $('submit').textContent = up ? 'Sign up' : 'Sign in';
+  $('switch').textContent = up ? 'Have an account? Sign in' : 'New here? Create an account';
+  $('err').textContent = '';
+  if (!$('dlg').open) $('dlg').showModal();
+}
+$('switch').onclick = () => openDlg(mode === 'signup' ? 'signin' : 'signup');
+$('close').onclick = () => $('dlg').close();
+$('form').onsubmit = async (e) => {
+  e.preventDefault();
+  const body = Object.fromEntries(new FormData(e.target));
+  try {
+    const r = await fetch('/api/' + mode, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    const d = await r.json();
+    if (!r.ok) { $('err').textContent = d.error || 'Something went wrong'; return; }
+    localStorage.setItem('token', d.token); localStorage.setItem('user', JSON.stringify(d.user));
+    user = d.user; e.target.reset(); $('dlg').close(); renderAuth();
+  } catch { $('err').textContent = 'Network error'; }
+};
+renderAuth();
+</script>
 </body>
 </html>
